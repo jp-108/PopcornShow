@@ -13,7 +13,6 @@ function Card(props) {
 
   const date = new Date(data.release_date);
   const year = date.getFullYear();
-console.log(data)
 
   return (
     <div ref={myRef} key={data.id} onClick={()=>navigate(`/${data.media_type || mediaType}/${data.id}`)} tabIndex='0' role='button' aria-label='carousel item' className='item-container'>
