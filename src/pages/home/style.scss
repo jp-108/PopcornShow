@@ -1,0 +1,18 @@
+@import "../../mixins.scss";
+
+.home{
+    .carousel-section{
+        padding: 10px 0px;
+        position: relative;
+        color: white;
+        .heading{
+            padding: 10px 20px;
+            position: absolute;
+            top: -20px;
+            font-size: 30px;
+        }
+        @include md{
+            padding: 10px 30px;           
+        }
+    }
+}

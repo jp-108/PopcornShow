@@ -1,0 +1,46 @@
+.skeleton-container {
+    display: flex;
+    align-items: center;
+    background-color: #6e6e6e;
+    border-radius: 10px;
+    margin-right: 20px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .skeleton-shape {
+    flex: 1;
+    height: 100%;
+    background: linear-gradient(100deg, #222338 10%, #31323f 30%, #212037 60%);
+    background-size: 200% 100%;
+    // animation: loading 1.5s infinite reverse;
+  }
+
+  @keyframes loading {
+    0% {
+      background-position: -50% 0;
+    }
+    100% {
+      background-position: 100% 0;
+    }
+  }
+
+  .shine {
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(100deg, rgba(255, 255, 255, 0) 25%, rgba(105, 105, 105, 0.5) 50%, rgba(255, 255, 255, 0) 75%);
+    animation: shine 1.5s infinite;
+    transition: all 0.1s ease-in-out;
+  }
+
+  @keyframes shine {
+    0%{
+      transform: translateX(-10%);
+    }
+    100% {
+      transform: translateX(300%);
+    }
+  }

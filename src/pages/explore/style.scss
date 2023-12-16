@@ -1,0 +1,44 @@
+@import "../../mixins.scss";
+
+.explore-container {
+  display: grid;
+  width: 100%;
+  color: azure;
+  height: 100vh;
+  padding-top: 60px;
+  grid-template-areas:
+    "filter"
+    "Result";
+
+  .explore-filter {
+    background-color: rgb(0, 2, 40);
+    padding: 30px 0 30px 5vw;
+    width: 100%;
+    height: 80px;
+  }
+
+  .explore-results {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 30px 5px;
+    justify-content: center;
+    width: 100%;
+    overflow: auto;
+    row-gap: 5%;
+    height: 80vh;
+    column-gap: 1%;
+    @include md {
+      padding: 30px 30px;
+      justify-content: start;
+      height: 95vh;
+    }
+  }
+
+  @include md {
+    grid-template-areas: "filter Result";
+    .explore-filter {
+      width: 28vw;
+      height: 95vh;
+    }
+  }
+}

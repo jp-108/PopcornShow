@@ -1,0 +1,99 @@
+@import "../../mixins.scss";
+
+.details-container {
+  color: aliceblue;
+  width: 100vw;
+  height: auto;
+
+  .backdrop-image {
+    height: 100vh;
+    width: 100vw;
+    z-index: -1;
+    object-fit: cover;
+    position: absolute;
+  }
+  .opacity-layer {
+    background-image: linear-gradient(to top,#020914, rgba(0, 12, 50, 0.605));
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+    @include md {
+      height: 100vh;
+      background-image: linear-gradient(to top,#020914, rgba(0, 12, 50, 0.605));
+    }
+  }
+  .details-wrapper {
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    padding-top: 50px;
+    // align-self: center;
+    @include sm {
+      padding: 120px 5% 50px;
+      flex-direction: row;
+    }
+    .poster-section {
+      align-self: center;
+      .poster-image {
+        width: 260px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+      }
+      .poster-btn {
+        width: 260px;
+        margin: 10px 0;
+        border-radius: 10px;
+        font-size: 30px;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 7px 0;
+        color: aliceblue;
+        cursor: pointer;
+        .btn-text {
+          font-size: 20px;
+          padding-left: 7px;
+        }
+      }
+      & .play-btn {
+        background-color: rgba(255, 162, 0, 0.7);
+        border: 1px solid rgb(62, 62, 62);
+      }
+      & .add-btn {
+        background-color: rgb(42, 42, 42, 0.7);
+        border: 1px solid rgb(62, 62, 62);
+      }
+      @include sm{
+        align-self: baseline;
+      }
+    }
+    .details-section {
+      margin: 0 5%;
+      top: 0;
+      left: 0;
+      .details-title {
+        font-size: 50px;
+      }
+      .details-tagline {
+        padding: 10px 2px;
+        color: #ffffffa9;
+        font-style: italic;
+      }
+      .details-overview {
+        margin-top: 20px;
+        line-height: 1.5;
+      }
+      .specifications {
+        margin-top: 5%;
+        p {
+          border-bottom: 1px solid #ffffff5a;
+          margin: 15px 0;
+          padding: 15px 0;
+        }
+      }
+    }
+  }
+}

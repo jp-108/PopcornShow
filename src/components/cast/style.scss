@@ -1,0 +1,27 @@
+.cast-container{
+    margin: 10px;
+    .cast-details{
+        width: 150px;
+        height: 230px;
+        border-radius: 10px;
+        text-align: center;
+        background-color: rgba(random(255), random(255), random(255), 0.886);
+        overflow: hidden;
+        .cast-image{
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 10px 10px 0 0;
+        }
+        .cast-name{
+            margin: 5px 0;
+            color: white;
+        }
+        .cast-character{
+            margin: 5px 0;
+            font-size: small;
+            color: rgb(206, 206, 206);
+        }
+    }
+}

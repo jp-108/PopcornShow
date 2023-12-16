@@ -1,0 +1,23 @@
+@import "../../mixins.scss";
+
+.details-page {
+  color: white;
+  .details-carousel {
+    .carousel-section {
+      padding: 10px 0px;
+      position: relative;
+    }
+    .cast-carousel{
+      .carousel__button{
+        height: 230px;
+        margin-bottom: 50px;
+      }
+    }
+    @include md {
+      padding: 10px 30px;
+    }
+    .heading {
+      margin-left: 30px;
+    }
+  }
+}
