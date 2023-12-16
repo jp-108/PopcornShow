@@ -17,10 +17,8 @@ const homeSlice = createSlice({
       .addCase(fetchApi.fulfilled, (state, action) => {
         if (action.meta.arg.includes("genre/tv")) {
           state.genres.tv =action.payload.genres;
-          console.log(action);
         } else if (action.meta.arg.includes("genre/movie")) {
           state.genres.movie = action.payload.genres;
-          console.log(action);
         } else {
           state.status = "Succeeded";
           state.data = action.payload.results;
