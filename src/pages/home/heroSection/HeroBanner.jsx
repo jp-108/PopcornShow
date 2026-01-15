@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import "./style.scss";
 import { useSelector } from "react-redux";
 import { FaStar } from "react-icons/fa6";
@@ -14,15 +14,18 @@ function HeroBanner({ loading }) {
   const IMAGE_PATH = import.meta.env.VITE_APP_IMAGE_PATH;
   const ref = useRef();
 
-  // Update the genre_ids in the data array
-  const genreIdToName = {};
-  genre.forEach((genre) => {
-    genreIdToName[genre.id] = genre.name;
-  });
+  // Memoize genreIdToName and updatedData for performance
+  const genreIdToName = useMemo(() => {
+    const map = {};
+    genre.forEach((genre) => {
+      map[genre.id] = genre.name;
+    });
+    return map;
+  }, [genre]);
 
-  const updatedData = data.map((item) => {
+  const updatedData = useMemo(() => data.map((item) => {
     return { ...item, genre_ids: item.genre_ids.map((genreId) => genreIdToName[genreId]) };
-  });
+  }).slice(0,5), [data, genreIdToName]);
 
   // Carousel Actions
   const startAutoplay = () => {
@@ -109,27 +112,30 @@ function HeroBanner({ loading }) {
             </div>
           </div>
         ) : (
-          updatedData.map((data, index) => (
-            <div id={index} className={`slides ${currentIndex === index ? "active" : ""}`} key={data.id}>
-              <div>
-                <img src={IMAGE_PATH + data.backdrop_path} className='background-image' alt='' />
-                <div className='info'>
-                  <h1 className='title'>{data.original_title}</h1>
-                  <div className='details'>
-                    <span className='rating'>
-                      <FaStar /> {data.vote_average.toFixed(2)}
-                    </span>
-                    | <span> {data.genre_ids.toString().replaceAll(",", ", ")}</span>
+          updatedData.map((data, index) => {
+            if (Math.abs(currentIndex - index) > 1) return null; // Only render current, prev, next
+            return (
+              <div id={index} className={`slides ${currentIndex === index ? "active" : ""}`} key={data.id}>
+                <div>
+                  <img src={IMAGE_PATH + data.backdrop_path} className='background-image' alt='' loading="lazy" />
+                  <div className='info'>
+                    <h1 className='title'>{data.original_title}</h1>
+                    <div className='details'>
+                      <span className='rating'>
+                        <FaStar /> {data.vote_average.toFixed(2)}
+                      </span>
+                      | <span> {data.genre_ids.toString().replaceAll(",", ", ")}</span>
+                    </div>
+                    <div className='btn-section'>
+                      <button className='playnow-btn btn'>Play Now</button>
+                      <button className='moreinfo-btn btn'>More Info</button>
+                    </div>
                   </div>
-                  <div className='btn-section'>
-                    <button className='playnow-btn btn'>Play Now</button>
-                    <button className='moreinfo-btn btn'>More Info</button>
-                  </div>
+                  <div className='opacity-layer'></div>
                 </div>
-                <div className='opacity-layer'></div>
               </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
       <div className='dots'>
