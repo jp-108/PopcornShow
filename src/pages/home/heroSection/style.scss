@@ -1,134 +1,437 @@
-@import "../../../mixins.scss";
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Barlow+Condensed:wght@600;700&display=swap");
 
-.hero{
+// ─── Variables ────────────────────────────────────────────────────────────────
+$red: #e50914;
+$gold: #f5c518;
+$dark: #0a0a0f;
+$darker: #050508;
+$surface: #12121a;
+$text: #f0f0f0;
+$muted: #7a7a8a;
+
+// ─── Wrapper ──────────────────────────────────────────────────────────────────
+.hero-wrapper {
     position: relative;
-    width: auto;
-    display:flex;
-    height: 70vh;
-    overflow-y: hidden;
-    scroll-behavior: smooth;
-    scroll-snap-type: x mandatory;
-    @include md{
-        height: 100vh;
-    }
+    font-family: "Barlow", sans-serif;
 }
 
-.slides{
-    scroll-snap-align: center;
-    scroll-snap-stop: always;
-   display: inline-block;
-   position: relative;
-   flex: 0 0 100%;
-    transition: transform 0.5s ease-in-out;
-}
-
-.background-image{
-    width: 100vw;
-    height:50vh;
-    // position: fixed;
-    overflow: hidden;
-    object-fit: cover;
-    @include md{
-        height: 100vh;
-    }
-    
-}
-.opacity-layer{
-    background-image: linear-gradient(to top, rgba(0, 0, 0),rgba(0, 0, 0), rgba(0, 0, 0), rgba(0, 0, 0, 0.605), transparent);
-    height: 100vh;
-    width: 100vw;
-    position: absolute;
-    top: 0;
-    z-index: 1;
-    @include md{
-        height: 100vh;
-        background-image: linear-gradient(to top, rgba(0, 0, 0), rgba(0, 0, 0,0.9), rgba(0, 0, 0, 0.605), transparent);
-    }
-}
-
-
-.dots{
+// ─── Hero (scroll container) ──────────────────────────────────────────────────
+.hero {
     position: relative;
-    width: 100vw;
-    top: -30px;
+    width: 100%;
+    height: 100svh;
+    min-height: 600px;
+    overflow: hidden; // hide scroll bar; JS still moves it
     display: flex;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 5;
-    justify-content: center;
-    @include md{
-        top:-50px;
+    background: $darker;
+
+    // hide the horizontal scrollbar used for JS positioning
+    &::-webkit-scrollbar {
+        display: none;
     }
-   .dot{ height: 5px;
-    width: 15px;
-    margin: 0 5px;
-    background-color: rgba(255, 255, 255, 0.200);
-    border-radius: 30%;
-    }
-    .active{
-    background-color: rgba(255, 255, 255, 0.6);;
-    }
+
+    scrollbar-width: none;
 }
 
-.btn{
-   
-    border: none;
-    border-radius: 10px;
-    font-size: larger;
-    font-weight: bold;
-    color: rgb(255, 255, 255);
-}
-.info{
-    color: #f3e9ca;
-    z-index: 2;
+// ─── Single Slide ─────────────────────────────────────────────────────────────
+.slide {
     position: absolute;
-    top: 45%;
-    padding: 10px 20px;
-    width: 100vw;
-    height: 100%;
-    @include md{
-        padding: 0 150px;
-        width: 70vw;
-        
-    }
-    .title{
-        font-size: 40px;
-        font-weight: 900;
-        padding-bottom: 10px;
-        background: linear-gradient(to right, #ff8a00, #e52e71); /* Use your desired color stops */
-        -webkit-background-clip: text;
-        color: transparent; 
-        background-clip: text;
-        @include md{
-            font-size: 60px;
-            
-        }
-    }
-    .btn-section{
-        margin: 15px 0;
-        .playnow-btn{
-            background-image: linear-gradient(to right, rgb(255, 123, 0), rgb(255, 98, 0));
-            margin-right: 15px;
-            padding: 14px;
-        }
-        .moreinfo-btn{
-            background: rgb(254, 254, 254, 0.2);
-            padding: 14px;
-        }
-    }
-    .details{
-        margin:4% 0;
-        line-height: 30px;
-        
-        .rating{
-            padding: 5px 8px;
-            background-color: rgba(255, 255, 255, 0.5);
-            border-radius: 5px;
-            color: black;
-        }
-    }
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.7s ease;
 
+    &.active {
+        opacity: 1;
+        pointer-events: all;
+
+        .slide__content {
+            .slide__badge {
+                animation: fadeUp 0.6s 0.2s both;
+            }
+
+            .slide__title {
+                animation: fadeUp 0.7s 0.35s both;
+            }
+
+            .slide__meta {
+                animation: fadeUp 0.6s 0.5s both;
+            }
+
+            .slide__overview {
+                animation: fadeUp 0.6s 0.6s both;
+            }
+
+            .slide__actions {
+                animation: fadeUp 0.6s 0.72s both;
+            }
+        }
+
+        .slide__bg-img {
+            animation: kenBurns 10s ease forwards;
+        }
+    }
 }
 
+// ─── Background image ─────────────────────────────────────────────────────────
+.slide__bg-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform-origin: center;
+    will-change: transform;
+}
 
+@keyframes kenBurns {
+    from {
+        transform: scale(1.06);
+    }
 
+    to {
+        transform: scale(1);
+    }
+}
+
+// ─── Gradient overlays ────────────────────────────────────────────────────────
+.slide__overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    &--left {
+        background: linear-gradient(to right,
+                rgba($darker, 0.95) 0%,
+                rgba($darker, 0.7) 38%,
+                rgba($darker, 0.15) 65%,
+                transparent 100%);
+    }
+
+    &--bottom {
+        background: linear-gradient(to top,
+                rgba($darker, 0.85) 0%,
+                transparent 40%);
+    }
+
+    &--vignette {
+        background: radial-gradient(ellipse at 70% 50%,
+                transparent 40%,
+                rgba($darker, 0.4) 100%);
+    }
+}
+
+// ─── Slide content ────────────────────────────────────────────────────────────
+.slide__content {
+    position: absolute;
+    bottom: 14%;
+    left: clamp(24px, 6vw, 80px);
+    z-index: 10;
+    max-width: min(580px, 48vw);
+
+    @media (max-width: 768px) {
+        max-width: 90%;
+        bottom: 22%;
+    }
+}
+
+.slide__badge {
+    display: inline-block;
+    padding: 4px 14px;
+    margin-bottom: 14px;
+    background: $red;
+    border-radius: 2px;
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+div.slide__badge {
+    background: transparent;
+    padding: 0;
+}
+
+.slide__title {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: clamp(2.8rem, 6.5vw, 5.8rem);
+    line-height: 0.95;
+    letter-spacing: 2px;
+    color: $text;
+    text-shadow: 0 4px 32px rgba(0, 0, 0, 0.75);
+    margin-bottom: 18px;
+}
+
+.slide__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+    font-size: 0.88rem;
+    color: $muted;
+}
+
+.slide__rating {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: $gold;
+    font-weight: 700;
+    font-size: 0.95rem;
+
+    svg {
+        font-size: 0.8rem;
+    }
+}
+
+.slide__dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: $muted;
+    flex-shrink: 0;
+}
+
+.slide__year {
+    font-weight: 600;
+    color: rgba($text, 0.65);
+}
+
+.slide__genres {
+    color: rgba($text, 0.55);
+    font-style: italic;
+    font-size: 0.84rem;
+}
+
+.slide__overview {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba($text, 0.7);
+    font-weight: 300;
+    margin-bottom: 28px;
+    max-width: 500px;
+
+    @media (max-width: 600px) {
+        display: none;
+    }
+}
+
+// ─── Buttons ──────────────────────────────────────────────────────────────────
+.slide__actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.slide__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 4px;
+    font-family: "Barlow", sans-serif;
+    font-weight: 700;
+    font-size: 0.88rem;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+
+    &--play {
+        background: $red;
+        color: #fff;
+
+        &:hover {
+            background: lighten($red, 6%);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba($red, 0.45);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+    }
+
+    &--info {
+        background: rgba(#fff, 0.1);
+        color: $text;
+        border: 1px solid rgba(#fff, 0.2);
+        backdrop-filter: blur(10px);
+
+        &:hover {
+            background: rgba(#fff, 0.18);
+            border-color: $gold;
+            color: $gold;
+            transform: translateY(-3px);
+        }
+    }
+
+    svg {
+        font-size: 0.85rem;
+    }
+}
+
+// ─── Prev / Next arrows ───────────────────────────────────────────────────────
+.hero__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 30;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 1px solid rgba(#fff, 0.15);
+    background: rgba(#fff, 0.08);
+    backdrop-filter: blur(10px);
+    color: $text;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+
+    &:hover {
+        background: $red;
+        border-color: $red;
+        transform: translateY(-50%) scale(1.1);
+        box-shadow: 0 0 24px rgba($red, 0.4);
+    }
+
+    &--prev {
+        left: 28px;
+    }
+
+    &--next {
+        right: 28px;
+    }
+
+    @media (max-width: 600px) {
+        display: none;
+    }
+}
+
+// ─── Thumbnail strip ──────────────────────────────────────────────────────────
+.hero__thumbs {
+    position: absolute;
+    right: clamp(20px, 3vw, 44px);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    @media (max-width: 900px) {
+        display: none;
+    }
+}
+
+.hero__thumb {
+    position: relative;
+    width: 76px;
+    height: 108px;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    opacity: 0.4;
+    transition: opacity 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.2s;
+    flex-shrink: 0;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s;
+    }
+
+    &:hover {
+        opacity: 0.75;
+        transform: scale(1.04);
+
+        img {
+            transform: scale(1.08);
+        }
+    }
+
+    &.active {
+        opacity: 1;
+        border-color: $red;
+        box-shadow: 0 0 18px rgba($red, 0.5);
+    }
+}
+
+.hero__thumb-glow {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba($darker, 0.5) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+// ─── Progress indicators ──────────────────────────────────────────────────────
+.hero__indicators {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 18px 0 10px;
+    background: $dark;
+}
+
+.hero__indicator {
+    height: 3px;
+    width: 28px;
+    border: none;
+    border-radius: 2px;
+    background: rgba(#fff, 0.2);
+    cursor: pointer;
+    padding: 0;
+    transition: width 0.3s ease, background 0.3s ease;
+    position: relative;
+    overflow: hidden;
+
+    &.active {
+        width: 56px;
+        background: rgba(#fff, 0.3);
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0;
+            background: $red;
+            animation: indicatorProgress 6s linear forwards;
+        }
+    }
+
+    &:hover:not(.active) {
+        background: rgba(#fff, 0.45);
+    }
+}
+
+@keyframes indicatorProgress {
+    to {
+        width: 100%;
+    }
+}
+
+// ─── Fade-up entrance ────────────────────────────────────────────────────────
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

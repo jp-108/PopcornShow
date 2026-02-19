@@ -1,18 +1,40 @@
-@import "../../mixins.scss";
+$dark: #0a0a0f;
+$red: #e50914;
+$text: #f0f0f0;
+$muted: #7a7a8a;
 
-.home{
-    .carousel-section{
-        padding: 10px 0px;
-        position: relative;
-        color: white;
-        .heading{
-            padding: 10px 20px;
-            position: absolute;
-            top: -20px;
-            font-size: 30px;
+.home {
+    background: $dark;
+    min-height: 100svh;
+
+    // ── Carousel stack ──────────────────────────────────────────────────────
+    &__carousels {
+
+        // Alternate row backgrounds for visual rhythm
+        .carousel-section:nth-child(odd) {
+            background: $dark;
         }
-        @include md{
-            padding: 10px 30px;           
+
+        .carousel-section:nth-child(even) {
+            background: #12121a;
         }
+    }
+
+    // ── Error state ─────────────────────────────────────────────────────────
+    &--error {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__error-msg {
+        color: $muted;
+        font-family: "Barlow", sans-serif;
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+        border: 1px solid rgba($red, 0.3);
+        padding: 18px 32px;
+        border-radius: 6px;
+        background: rgba($red, 0.06);
     }
 }
