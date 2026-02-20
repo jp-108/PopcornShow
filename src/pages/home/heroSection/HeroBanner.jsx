@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { FaStar, FaPlay, FaCircleInfo, FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { debounce } from "../../../utils/utils";
 import Skelton from "../../../components/skelton/Skelton";
+import { useNavigate } from "react-router-dom";
 
 function HeroBanner({ loading }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -14,6 +15,7 @@ function HeroBanner({ loading }) {
   let genre = [...genres.tv, ...genres.movie];
   const IMAGE_PATH = import.meta.env.VITE_APP_IMAGE_PATH;
   const ref = useRef();
+  const navigate = useNavigate();
 
   // Memoize genreIdToName and updatedData for performance
   const genreIdToName = useMemo(() => {
@@ -167,10 +169,10 @@ function HeroBanner({ loading }) {
                   </p>
 
                   <div className="slide__actions">
-                    <button className="slide__btn slide__btn--play">
+                    <button onClick={() => navigate(`/movie/${item.id}`)} className="slide__btn slide__btn--play">
                       <FaPlay /> Play Now
                     </button>
-                    <button className="slide__btn slide__btn--info">
+                    <button onClick={() => navigate(`/movie/${item.id}`)} className="slide__btn slide__btn--info">
                       <FaCircleInfo /> More Info
                     </button>
                   </div>

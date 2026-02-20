@@ -1,46 +1,297 @@
-@import "../../mixins.scss";
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@600;700&display=swap");
 
-.search-container {
+// ── Design tokens ─────────────────────────────────────────────────────────────
+$red:     #e50914;
+$gold:    #f5c518;
+$dark:    #0a0a0f;
+$darker:  #050508;
+$surface: #12121a;
+$surface2:#1a1a26;
+$text:    #f0f0f0;
+$muted:   #7a7a8a;
+$border:  rgba(255, 255, 255, 0.07);
+
+// ── Page wrapper ──────────────────────────────────────────────────────────────
+.results {
+  min-height: 100svh;
+  background: $dark;
+  padding: 100px clamp(20px, 5vw, 64px) 80px;
+  font-family: "Barlow", sans-serif;
+}
+
+// ── Header ────────────────────────────────────────────────────────────────────
+.results__header {
+  margin-bottom: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.results__title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.results__icon {
+  font-size: 1.8rem;
+  color: $red;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.results__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: $muted;
+  margin-bottom: 4px;
+}
+
+.results__query {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  letter-spacing: 2px;
+  color: $text;
+  line-height: 1;
+  word-break: break-word;
+}
+
+.results__count {
+  margin-left: auto;
+  align-self: flex-end;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: $muted;
+  background: $surface;
+  padding: 4px 14px;
+  border-radius: 20px;
+  border: 1px solid $border;
+  white-space: nowrap;
+}
+
+// ── Filter tabs ───────────────────────────────────────────────────────────────
+.results__tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid $border;
+  padding-bottom: 0;
+}
+
+.results__tab {
+  padding: 10px 24px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: $muted;
+  font-family: "Barlow", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  margin-bottom: -1px; // overlap the border-bottom of parent
+
+  &:hover {
+    color: $text;
+  }
+
+  &.active {
+    color: $text;
+    border-bottom-color: $red;
+  }
+}
+
+// ── Results grid ──────────────────────────────────────────────────────────────
+.results__grid {
   display: grid;
-  width: 100%;
-  color: azure;
-  height: 100vh;
-  padding-top: 60px;
-  grid-template-areas:
-    "filter"
-    "Result";
-    .search-filter {
-      background-color: rgb(0, 2, 40);
-    padding: 30px 5vw;
-    grid-area: "filter";
-    width: 100%;
-    height: 80px;
-  }
-  .search-results {
-    grid-area: "Result";
-    display: flex;
-    flex-wrap: wrap;
-    padding:30px 5px;
-    justify-content: center;
-    width: 100%;
-    overflow: auto;
-    row-gap: 5%;
-    height: 80vh;
-    column-gap: 1%;
-    @include md{
-      padding:30px 30px;
-      justify-content: start;
-      height: 95vh;
-      
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px 16px;
+  overflow: visible;    // allow card hover scale to bleed out
+  padding-bottom: 8px;
+}
+
+// ── Skeleton shimmer cards ────────────────────────────────────────────────────
+.results__skeleton {
+  height: 240px;
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    $surface  25%,
+    $surface2 50%,
+    $surface  75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position:  200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+// ── Empty state ───────────────────────────────────────────────────────────────
+.results__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 80px 24px;
+  gap: 16px;
+}
+
+.results__empty-icon {
+  font-size: 3.5rem;
+  color: rgba($muted, 0.3);
+  margin-bottom: 8px;
+}
+
+.results__empty-title {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 2rem;
+  letter-spacing: 3px;
+  color: $text;
+}
+
+.results__empty-sub {
+  font-size: 0.95rem;
+  color: $muted;
+  line-height: 1.7;
+  font-weight: 300;
+  max-width: 420px;
+
+  strong { color: $text; font-weight: 600; }
+}
+
+.results__empty-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.results__empty-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 28px;
+  border-radius: 4px;
+  font-family: "Barlow", sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &--primary {
+    background: $red;
+    border: 1px solid $red;
+    color: #fff;
+
+    &:hover {
+      background: lighten($red, 6%);
+      box-shadow: 0 8px 24px rgba($red, 0.4);
+      transform: translateY(-2px);
     }
   }
-  
-  @include md{
-    grid-template-areas:"filter Result";
-    .search-filter{
-      width: 28vw;
-      height: 95vh;
+
+  &--secondary {
+    background: transparent;
+    border: 1px solid $border;
+    color: $text;
+    backdrop-filter: blur(8px);
+
+    &:hover {
+      border-color: rgba($text, 0.3);
+      background: rgba($text, 0.06);
+      transform: translateY(-2px);
     }
-} 
-  
+  }
+}
+
+// ── Load more spinner ─────────────────────────────────────────────────────────
+.results__spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 0;
+  color: $muted;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.spinning {
+  animation: spin 0.8s linear infinite;
+  font-size: 1.2rem;
+  color: $red;
+}
+
+// ── End of results ────────────────────────────────────────────────────────────
+.results__end {
+  text-align: center;
+  padding: 48px 0 24px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: $muted;
+  position: relative;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 28%;
+    height: 1px;
+    background: $border;
+  }
+
+  &::before { left: 6%; }
+  &::after  { right: 6%; }
+}
+
+// ── Error state ───────────────────────────────────────────────────────────────
+.results__error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 60px 0;
+  color: $muted;
+  font-size: 0.95rem;
+
+  button {
+    padding: 10px 28px;
+    background: $red;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-family: "Barlow", sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+    &:hover { background: lighten($red, 6%); }
+  }
+}
+
+// ── Sentinel ──────────────────────────────────────────────────────────────────
+.results__sentinel {
+  height: 1px;
+  visibility: hidden;
 }

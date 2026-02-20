@@ -1,44 +1,313 @@
-@import "../../mixins.scss";
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@600;700&display=swap");
 
-.explore-container {
+// ── Design tokens ─────────────────────────────────────────────────────────────
+$red:     #e50914;
+$gold:    #f5c518;
+$dark:    #0a0a0f;
+$darker:  #050508;
+$surface: #12121a;
+$surface2:#1a1a26;
+$text:    #f0f0f0;
+$muted:   #7a7a8a;
+$border:  rgba(255,255,255,0.07);
+
+// ── Page wrapper ──────────────────────────────────────────────────────────────
+.explore {
+  min-height: 100svh;
+  background: $dark;
+  padding: 100px clamp(20px, 5vw, 64px) 80px;
+  font-family: "Barlow", sans-serif;
+}
+
+// ── Header row ────────────────────────────────────────────────────────────────
+.explore__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.explore__title-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.explore__icon {
+  font-size: 1.6rem;
+  color: $red;
+  flex-shrink: 0;
+}
+
+.explore__title {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: 3px;
+  color: $text;
+  line-height: 1;
+}
+
+.explore__count {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: $muted;
+  background: $surface;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid $border;
+}
+
+// ── Sort dropdown ─────────────────────────────────────────────────────────────
+.explore__sort {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.explore__sort-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: $muted;
+}
+
+.explore__select-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.explore__select {
+  appearance: none;
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: 6px;
+  color: $text;
+  font-family: "Barlow", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 10px 38px 10px 16px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+
+  &:hover,
+  &:focus { border-color: rgba($red, 0.6); }
+
+  option {
+    background: $surface2;
+    color: $text;
+  }
+}
+
+.explore__select-icon {
+  position: absolute;
+  right: 12px;
+  font-size: 0.7rem;
+  color: $muted;
+  pointer-events: none;
+}
+
+// ── Genre pills ───────────────────────────────────────────────────────────────
+.explore__genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.explore__genre-pill {
+  padding: 7px 18px;
+  border-radius: 20px;
+  border: 1px solid $border;
+  background: $surface;
+  color: $muted;
+  font-family: "Barlow", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: rgba($red, 0.5);
+    color: $text;
+    background: rgba($red, 0.08);
+  }
+
+  &.active {
+    background: $red;
+    border-color: $red;
+    color: #fff;
+    box-shadow: 0 0 16px rgba($red, 0.35);
+  }
+}
+
+// ── Active filter tags ────────────────────────────────────────────────────────
+.explore__active-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding: 12px 16px;
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: 8px;
+}
+
+.explore__filter-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: $muted;
+  margin-right: 4px;
+}
+
+.explore__filter-tag {
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba($red, 0.4);
+  background: rgba($red, 0.1);
+  color: $text;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover { background: rgba($red, 0.25); }
+}
+
+.explore__filter-clear {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: $muted;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s;
+
+  &:hover { color: $red; }
+}
+
+// ── Results grid ──────────────────────────────────────────────────────────────
+.explore__grid {
   display: grid;
-  width: 100%;
-  color: azure;
-  height: 100vh;
-  padding-top: 60px;
-  grid-template-areas:
-    "filter"
-    "Result";
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px 16px;
+  // Allow cards to scale on hover without clipping
+  overflow: visible;
+  padding-bottom: 8px;
+}
 
-  .explore-filter {
-    background-color: rgb(0, 2, 40);
-    padding: 30px 0 30px 5vw;
-    width: 100%;
-    height: 80px;
+// ── Skeleton cards ────────────────────────────────────────────────────────────
+.explore__skeleton {
+  height: 240px;
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    $surface  25%,
+    $surface2 50%,
+    $surface  75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position:  200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+// ── Load more spinner ─────────────────────────────────────────────────────────
+.explore__spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 0;
+  color: $muted;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinning {
+  animation: spin 0.8s linear infinite;
+  font-size: 1.2rem;
+  color: $red;
+}
+
+// ── End of results ────────────────────────────────────────────────────────────
+.explore__end {
+  text-align: center;
+  padding: 48px 0 24px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: $muted;
+  position: relative;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 28%;
+    height: 1px;
+    background: $border;
   }
 
-  .explore-results {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 30px 5px;
-    justify-content: center;
-    width: 100%;
-    overflow: auto;
-    row-gap: 5%;
-    height: 80vh;
-    column-gap: 1%;
-    @include md {
-      padding: 30px 30px;
-      justify-content: start;
-      height: 95vh;
-    }
-  }
+  &::before { left: 6%; }
+  &::after  { right: 6%; }
+}
 
-  @include md {
-    grid-template-areas: "filter Result";
-    .explore-filter {
-      width: 28vw;
-      height: 95vh;
-    }
+// ── Error state ───────────────────────────────────────────────────────────────
+.explore__error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 60px 0;
+  color: $muted;
+  font-size: 0.95rem;
+
+  button {
+    padding: 10px 28px;
+    background: $red;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-family: "Barlow", sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover { background: lighten($red, 6%); }
   }
+}
+
+// ── Sentinel (invisible) ──────────────────────────────────────────────────────
+.explore__sentinel {
+  height: 1px;
+  visibility: hidden;
 }
