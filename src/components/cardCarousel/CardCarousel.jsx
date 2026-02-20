@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import "./style.scss";
 import { BsArrowRight, BsArrowLeft } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 export default function CardCarousel({ children, heading }) {
   const carousel = useRef(null);
@@ -9,6 +10,7 @@ export default function CardCarousel({ children, heading }) {
   const [isDragging, setIsDragging] = useState(false);
   const dragStart = useRef(0);
   const scrollStart = useRef(0);
+  const navigate = useNavigate();
 
   // Update arrow visibility based on scroll position
   const updateArrows = useCallback(() => {
@@ -63,7 +65,7 @@ export default function CardCarousel({ children, heading }) {
       {/* Heading row */}
       <div className="carousel-header">
         <h2 className="carousel-heading">{heading}</h2>
-        <button className="carousel-see-all">
+        <button onClick={()=>navigate(`/discover/movie`)} className="carousel-see-all">
           See All <BsArrowRight />
         </button>
       </div>

@@ -120,6 +120,11 @@ function ExplorePage() {
 
   const genreList = GENRES[mediaType] ?? [];
 
+  // if url changes page scroll to the top
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [mediaType]);
+
   return (
     <div className="explore">
 
